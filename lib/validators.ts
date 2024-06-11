@@ -1,6 +1,8 @@
 import * as z from "zod";
-import { formatNumberWithDecimal } from "./utils";
+import { createInsertSchema } from "drizzle-zod"
 import { PAYMENT_METHODS } from "./constants";
+import { formatNumberWithDecimal } from "./utils";
+import { orderItems, orders } from "@/db/schema";
 
 // USER
 export const signInFormSchema = z.object({
@@ -49,9 +51,32 @@ export const shippingAddressSchema = z.object({
 
 export const paymentMethodSchema = z
   .object({
-    type: z.string().min(1, 'Payment method is required'),
+    type: z.string().min(1, "Payment method is required"),
   })
   .refine((data) => PAYMENT_METHODS.includes(data.type), {
-    path: ['type'],
-    message: 'Invalid payment method',
+    path: ["type"],
+    message: "Invalid payment method",
+  });
+
+export const paymentResultSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  email_address: z.string(),
+  pricePaid: z.string(),
+});
+
+export const insertOrderSchema = createInsertSchema(orders, {
+    shippingAddress: shippingAddressSchema,
+    paymentResult: z
+      .object({
+        id: z.string(),
+        status: z.string(),
+        email_address: z.string(),
+        pricePaid: z.string(),
+      })
+      .optional(),
+  })
+  
+  export const insertOrderItemSchema = createInsertSchema(orderItems, {
+    price: z.number(),
   })
