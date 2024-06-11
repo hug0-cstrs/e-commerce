@@ -23,6 +23,7 @@ export const users = pgTable("user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   address: json('address').$type<ShippingAdress>(),
+  paymentMethod: text('paymentMethod'),
 });
 
 export const accounts = pgTable(
