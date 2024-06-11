@@ -10,10 +10,12 @@ import { revalidatePath } from "next/cache";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { formatError } from "../utils";
 import {
+    paymentMethodSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
 } from "../validators";
+import { z } from "zod";
 
 // USER
 export async function signUp(prevState: unknown, formData: FormData) {
@@ -100,3 +102,27 @@ export async function updateUserAddress(data: ShippingAdress) {
     return { success: false, message: formatError(error) };
   }
 }
+
+export async function updateUserPaymentMethod(
+    data: z.infer<typeof paymentMethodSchema>
+  ) {
+    try {
+      const session = await auth()
+      const currentUser = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, session?.user.id!),
+      })
+      if (!currentUser) throw new Error('User not found')
+      const paymentMethod = paymentMethodSchema.parse(data)
+      await db
+        .update(users)
+        .set({ paymentMethod: paymentMethod.type })
+        .where(eq(users.id, currentUser.id))
+      revalidatePath('/place-order')
+      return {
+        success: true,
+        message: 'User updated successfully',
+      }
+    } catch (error) {
+      return { success: false, message: formatError(error) }
+    }
+  }
