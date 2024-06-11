@@ -20,24 +20,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { shippingAddressSchema } from "@/lib/validators";
-import { ShippingAdress } from "@/types";
+import { ShippingAddress } from "@/types";
 import { ArrowRight, Loader } from "lucide-react";
 
 export default function ShippingAddressForm({
   address,
 }: {
-  address: ShippingAdress | null;
+  address: ShippingAddress | null;
 }) {
   const router = useRouter();
 
-  const form = useForm<ShippingAdress>({
+  const form = useForm<ShippingAddress>({
     resolver: zodResolver(shippingAddressSchema),
     defaultValues: address || shippingAddressDefaultValues,
   });
   const { toast } = useToast();
 
   const [isPending, startTransition] = useTransition();
-  const onSubmit: SubmitHandler<ShippingAdress> = async (values) => {
+  const onSubmit: SubmitHandler<ShippingAddress> = async (values) => {
     startTransition(async () => {
       const res = await updateUserAddress(values);
       if (!res.success) {
