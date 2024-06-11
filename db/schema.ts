@@ -1,4 +1,4 @@
-import { CartItem } from "@/types";
+import { CartItem, ShippingAdress } from "@/types";
 import {
   boolean,
   integer,
@@ -22,6 +22,7 @@ export const users = pgTable("user", {
   password: text("password"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  address: json('address').$type<ShippingAdress>(),
 });
 
 export const accounts = pgTable(
