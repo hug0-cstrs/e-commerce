@@ -1,8 +1,8 @@
+import { orderItems, orders } from "@/db/schema";
+import { createInsertSchema } from "drizzle-zod";
 import * as z from "zod";
-import { createInsertSchema } from "drizzle-zod"
 import { PAYMENT_METHODS } from "./constants";
 import { formatNumberWithDecimal } from "./utils";
-import { orderItems, orders } from "@/db/schema";
 
 // USER
 export const signInFormSchema = z.object({
@@ -66,17 +66,22 @@ export const paymentResultSchema = z.object({
 });
 
 export const insertOrderSchema = createInsertSchema(orders, {
-    shippingAddress: shippingAddressSchema,
-    paymentResult: z
-      .object({
-        id: z.string(),
-        status: z.string(),
-        email_address: z.string(),
-        pricePaid: z.string(),
-      })
-      .optional(),
-  })
-  
-  export const insertOrderItemSchema = createInsertSchema(orderItems, {
-    price: z.number(),
-  })
+  shippingAddress: shippingAddressSchema,
+  paymentResult: z
+    .object({
+      id: z.string(),
+      status: z.string(),
+      email_address: z.string(),
+      pricePaid: z.string(),
+    })
+    .optional(),
+});
+
+export const insertOrderItemSchema = createInsertSchema(orderItems, {
+  price: z.number(),
+});
+
+export const updateProfileSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  email: z.string().email().min(3, "Email must be at least 3 characters"),
+});
