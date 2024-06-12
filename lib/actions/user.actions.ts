@@ -3,7 +3,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import db from "@/db/drizzle";
 import { users } from "@/db/schema";
-import { ShippingAdress } from "@/types";
+import { ShippingAddress } from "@/types";
 import { hashSync } from "bcrypt-ts-edge";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -83,7 +83,7 @@ export async function getUserById(userId: string) {
   return user;
 }
 
-export async function updateUserAddress(data: ShippingAdress) {
+export async function updateUserAddress(data: ShippingAddress) {
   try {
     const session = await auth();
     const currentUser = await db.query.users.findFirst({
