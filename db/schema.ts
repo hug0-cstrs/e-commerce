@@ -1,8 +1,4 @@
-import {
-  CartItem,
-  PaymentResult,
-  ShippingAddress,
-} from "@/types";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -19,17 +15,26 @@ import { primaryKey } from "drizzle-orm/pg-core/primary-keys";
 import { AdapterAccountType } from "next-auth/adapters";
 
 // USERS
-export const users = pgTable("user", {
-  id: uuid("id").defaultRandom().primaryKey().notNull(),
-  name: text("name"),
-  email: text("email").notNull(),
-  role: text("role").default("user").notNull(),
-  password: text("password"),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-  address: json("address").$type<ShippingAddress>(),
-  paymentMethod: text("paymentMethod"),
-});
+export const users = pgTable(
+  "user",
+  {
+    id: uuid("id").defaultRandom().primaryKey().notNull(),
+    name: text("name"),
+    email: text("email").notNull(),
+    role: text("role").default("user").notNull(),
+    password: text("password"),
+    emailVerified: timestamp("emailVerified", { mode: "date" }),
+    image: text("image"),
+    address: json("address").$type<ShippingAddress>(),
+    paymentMethod: text("paymentMethod"),
+    createdAt: timestamp("createdAt").defaultNow(),
+  },
+  (table) => {
+    return {
+      userEmailIdx: uniqueIndex("user_email_idx").on(table.email),
+    };
+  }
+);
 
 export const accounts = pgTable(
   "account",
