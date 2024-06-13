@@ -41,6 +41,7 @@ export default async function SignIn({
               width={100}
               height={100}
               alt={`${APP_NAME} logo`}
+              className='rounded-md'
             />
           </Link>
           <CardTitle className="text-center">Sign In</CardTitle>
