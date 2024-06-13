@@ -41,6 +41,7 @@ export default async function SignUp({
               width={100}
               height={100}
               alt={`${APP_NAME} logo`}
+              className='rounded-md'
             />
           </Link>
           <CardTitle className="text-center">Create Account</CardTitle>
