@@ -8,9 +8,9 @@ export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 3;
 
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   ? process.env.PAYMENT_METHODS.split(", ")
-  : ["Stripe", "Paypal"];
+  : ["Paypal", "Stripe", "CashOnDelivery"];
 export const DEFAULT_PAYMENT_METHOD =
-  process.env.DEFAULT_PAYMENT_METHOD || "Stripe";
+  process.env.DEFAULT_PAYMENT_METHOD || "Paypal";
 
 export const signInDefaultValues = {
   email: "",
