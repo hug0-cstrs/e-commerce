@@ -20,7 +20,7 @@ const Header = async () => {
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
-        <div className="flex-start">
+        <div className="flex-start gap-3">
           <Drawer direction="left">
             <DrawerTrigger asChild>
               <Button variant="outline">
