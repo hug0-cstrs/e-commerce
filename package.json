@@ -10,6 +10,7 @@
     "generate-secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('base64'))\""
   },
   "dependencies": {
+    "@auth/core": "^0.32.0",
     "@auth/drizzle-adapter": "^1.2.0",
     "@hookform/resolvers": "^3.6.0",
     "@neondatabase/serverless": "^0.9.3",
